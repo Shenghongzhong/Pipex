@@ -6,7 +6,7 @@
 #    By: szhong <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/23 09:36:43 by szhong            #+#    #+#              #
-#    Updated: 2024/04/23 10:03:37 by szhong           ###   ########.fr        #
+#    Updated: 2024/04/24 18:16:19 by szhong           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,25 +17,26 @@ DF = \033[0;39m
 NAME		:= pipex
 CC		:= cc
 CFLAGS		:= -Wall -Wextra -Werror -g
-PRINTF_PATH	:= ./ft_printf
+LIBFT_PATH	:= ./libft
 MAKEFLAGS	:= --no-print-directory 
 
 all: $(NAME)
 
 $(NAME): ft_printf
-	@$(CC) $(CFLAGS) -c main.c -I ./ft_printf/include 
-	@$(CC) $(CFLAGS)  main.o -L./ft_printf -lftprintf -o $(NAME)
+	@$(CC) $(CFLAGS) -c pipex.c -I ./libft/inc
+	@$(CC) $(CFLAGS)  pipex.o -L./libft -lft -o $(NAME)
 
 ft_printf:
-	@make $(MAKEFLAGS) -C $(PRINTF_PATH) all
+	@make $(MAKEFLAGS) -C $(LIBFT_PATH) all
 clean:
-	@make $(MAKEFLAGS) -C $(PRINTF_PATH) clean
+	@make $(MAKEFLAGS) -C $(LIBFT_PATH) clean
 	@rm -rf $(NAME)
-	@rm -rf main.o
+	@rm -rf pipex.o
+	@rm -rf outfile
 	@echo "\n$(YELLOW)[pipex] $(GREEN)Objects Removed$(DF)"
 
 fclean: clean
-	@make $(MAKEFLAGS) -C $(PRINTF_PATH) fclean
+	@make $(MAKEFLAGS) -C $(LIBFT_PATH) fclean
 	@rm -rf $(NAME)
 	@echo "\n$(YELLOW)[pipex] $(GREEN)$(NAME) Removed $(DF)"
 
