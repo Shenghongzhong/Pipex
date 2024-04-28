@@ -6,7 +6,7 @@
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:35:33 by szhong            #+#    #+#             */
-/*   Updated: 2024/04/28 20:50:34 by szhong           ###   ########.fr       */
+/*   Updated: 2024/04/28 21:41:26 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -18,7 +18,7 @@ int	main(int argc, char *argv[], char *env[])
 	int	id;
 
 	if (argc != 5)
-		return (-1);
+		error_handler(-1);
 	else
 	{
 		if (pipe(p_fd) == -1)

@@ -6,7 +6,7 @@
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:35:33 by szhong            #+#    #+#             */
-/*   Updated: 2024/04/28 16:30:28 by szhong           ###   ########.fr       */
+/*   Updated: 2024/04/28 21:46:22 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -26,19 +26,24 @@ void	exec_cmds(char *arg, char **env)
 	{
 		ft_putstr_fd("Error: Command not found:", 2);
 		ft_putendl_fd(cmd_arr[0], 2);
-		exit(EXIT_SUCCESS);
+		exit(EXIT_FAILURE);
 	}
-	free(cmd_arr);
+	free_arr(cmd_arr);
 	free(path_exe);
 }
 
 void	child_proc(int *p_fd, char *argv[], char *env[])
 {
-	int	fd;
+	int	infd;
 
 	close(p_fd[0]);
-	fd = open(argv[1], O_RDONLY, 0777);
-	dup2(fd, STDIN_FILENO);
+	infd = open(argv[1], O_RDONLY, 0777);
+	if (infd == -1)
+	{
+		ft_putstr_fd("no such file or directory: ", 2);
+		ft_putendl_fd(argv[1], 2);
+	}
+	dup2(infd, STDIN_FILENO);
 	dup2(p_fd[1], STDOUT_FILENO);
 	exec_cmds(argv[2], env);
 }
