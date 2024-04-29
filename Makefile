@@ -6,7 +6,7 @@
 #    By: szhong <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/23 09:36:43 by szhong            #+#    #+#              #
-#    Updated: 2024/04/28 20:57:39 by szhong           ###   ########.fr        #
+#    Updated: 2024/04/28 21:54:53 by szhong           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS) | $(LIBFT) $(OBJ_DIR)
 	@$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
-	@echo "$(YELLOW)[PIPEX] $(GREEN)Build completed$(DF)"
+	@echo "$(YELLOW)[PIPEX] $(GREEN)Build Completed!$(DF)"
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)

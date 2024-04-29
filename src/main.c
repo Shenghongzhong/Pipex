@@ -6,16 +6,17 @@
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:35:33 by szhong            #+#    #+#             */
-/*   Updated: 2024/04/28 21:41:26 by szhong           ###   ########.fr       */
+/*   Updated: 2024/04/29 11:35:51 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 #include "pipex.h"
+#include <unistd.h>
 
 int	main(int argc, char *argv[], char *env[])
 {
 	int	p_fd[2];
-	int	id;
+	pid_t	id;
 
 	if (argc != 5)
 		error_handler(-1);
