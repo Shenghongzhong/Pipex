@@ -6,7 +6,7 @@
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:35:33 by szhong            #+#    #+#             */
-/*   Updated: 2024/04/30 14:37:45 by szhong           ###   ########.fr       */
+/*   Updated: 2024/04/30 15:31:28 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -17,8 +17,8 @@
 
 int	main(int argc, char *argv[], char *env[])
 {
-	int	p_fd[2];
 	pid_t	pid;
+	int		p_fd[2];
 
 	if (argc != 5)
 		error_handler(-1);
@@ -38,10 +38,7 @@ int	main(int argc, char *argv[], char *env[])
 		if (pid == 0)
 			child_proc(p_fd, argv, env);
 		else
-		{
-			wait(NULL);
 			parent_proc(p_fd, argv, env);
-		}
 	}
 	return (0);
 }

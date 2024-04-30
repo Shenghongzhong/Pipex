@@ -6,13 +6,14 @@
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:35:33 by szhong            #+#    #+#             */
-/*   Updated: 2024/04/30 14:33:14 by szhong           ###   ########.fr       */
+/*   Updated: 2024/04/30 15:31:40 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 #include "pipex.h"
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/wait.h>
 #include <stdio.h>
 
 void	error_handler(int status)
@@ -37,7 +38,10 @@ void	child_proc(int *p_fd, char *argv[], char *env[])
 		ft_putendl_fd(argv[1], 2);
 	}
 	if (dup2(infd, STDIN_FILENO) < 0)
+	{
 		perror("dup2(infd,STDIN_FILENO)\nError");
+		exit(EXIT_FAILURE);
+	}
 	if (dup2(p_fd[1], STDOUT_FILENO) < 0)
 		perror("dup2(p_fd[1], STDOUTFILENO);\nError");
 	exec_cmds(argv[2], env);
