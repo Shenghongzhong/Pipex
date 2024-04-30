@@ -6,7 +6,7 @@
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:35:33 by szhong            #+#    #+#             */
-/*   Updated: 2024/04/29 11:35:51 by szhong           ###   ########.fr       */
+/*   Updated: 2024/04/30 11:45:57 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -15,8 +15,8 @@
 
 int	main(int argc, char *argv[], char *env[])
 {
-	int	p_fd[2];
-	pid_t	id;
+	pid_t	pid;
+	int		p_fd[2];
 
 	if (argc != 5)
 		error_handler(-1);
@@ -24,16 +24,16 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		if (pipe(p_fd) == -1)
 		{
-			ft_printf("Pipe creation failed");
+			ft_putendl_fd("Pipe creation failed", 2);
 			exit(EXIT_FAILURE);
 		}
-		id = fork();
-		if (id == -1)
+		pid = fork();
+		if (pid == -1)
 		{
-			ft_printf("Fork Failed");
+			ft_putendl_fd("Fork Failed", 2);
 			exit(EXIT_FAILURE);
 		}
-		if (id == 0)
+		if (pid == 0)
 			child_proc(p_fd, argv, env);
 		else
 			parent_proc(p_fd, argv, env);

@@ -6,7 +6,7 @@
 #    By: szhong <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/23 09:36:43 by szhong            #+#    #+#              #
-#    Updated: 2024/04/28 21:54:53 by szhong           ###   ########.fr        #
+#    Updated: 2024/04/30 13:12:36 by szhong           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,9 @@ CC		:= cc
 CFLAGS		:= -Wall -Wextra -Werror -g
 SRCS		:= \
 		   src/pipex.c \
-		   src/utils.c \
-		   src/main.c
+		   src/pipex_cmd.c \
+		   src/main.c \
+		   src/pipex_fcntl.c
 
 OBJ_DIR		:= obj
 OBJS		:= $(SRCS:%.c = $(OBJ_DIR)/%.o) 
