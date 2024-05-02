@@ -6,7 +6,7 @@
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:35:33 by szhong            #+#    #+#             */
-/*   Updated: 2024/04/30 15:31:40 by szhong           ###   ########.fr       */
+/*   Updated: 2024/05/02 22:00:15 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -38,10 +38,7 @@ void	child_proc(int *p_fd, char *argv[], char *env[])
 		ft_putendl_fd(argv[1], 2);
 	}
 	if (dup2(infd, STDIN_FILENO) < 0)
-	{
 		perror("dup2(infd,STDIN_FILENO)\nError");
-		exit(EXIT_FAILURE);
-	}
 	if (dup2(p_fd[1], STDOUT_FILENO) < 0)
 		perror("dup2(p_fd[1], STDOUTFILENO);\nError");
 	exec_cmds(argv[2], env);

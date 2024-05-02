@@ -6,12 +6,22 @@
 /*   By: szhong <szhong@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:35:33 by szhong            #+#    #+#             */
-/*   Updated: 2024/04/30 14:21:29 by szhong           ###   ########.fr       */
+/*   Updated: 2024/05/02 22:18:50 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 #include "pipex.h"
 #include <unistd.h>
+
+void	error_handler(int status)
+{
+	if (status == -1)
+	{
+		ft_putendl_fd("Error: Incorrect arguments", 2);
+		ft_putendl_fd("Hint: ./pipex infile \"cmd1\" \"cmd2\" outfile", 2);
+		exit(EXIT_FAILURE);
+	}
+}
 
 void	exec_cmds(char *arg, char **env)
 {

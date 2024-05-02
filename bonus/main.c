@@ -6,89 +6,127 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:15:29 by szhong            #+#    #+#             */
-/*   Updated: 2024/04/30 18:02:04 by szhong           ###   ########.fr       */
+/*   Updated: 2024/05/02 22:48:58 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
+#include "bonus.h"
+#include "pipex.h"
 #include <sys/wait.h>
 #include <stdio.h>
 
 
-void	child_proc(int *p_fd, char **argv)
+void	here_doc(char *argv[])
 {
-	int	infile;
+	int	p_fd[2];
+	pid_t	pid;
 
-	infile = open(argv[1], O_RDONLY, 0777);
-	if (infile == -1)
+	if (pipe(p_fd) == -1)
+		perror("pipe()");
+	pid = fork();
+	if (pid == -1)
+		perror("fork()");
+	else if (pid == 0)
+		get_usrinput(argv, p_fd);
+	else
 	{
-		perror("open() Error");
-		exit(EXIT_FAILURE);
+		wait(NULL);
+		close(p_fd[1]);
+		dup2(p_fd[0], STDIN_FILENO);
 	}
-	if (dup2(infile, STDIN_FILENO) == -1)
+}
+
+void	get_usrinput(char *argv[], int *p_fd)
+{
+	char	*usr_input;
+
+	close(p_fd[0]);
+	while (1)
 	{
-		ft_putstr_fd("no such file:", 2);
-		ft_putendl_fd(argv[1], 2);
-		perror("dup2(infile, STDIN_FILENO)\nError");
+		usr_input = get_next_line(STDIN_FILENO);
+		if (ft_strncmp(argv[2], usr_input, ft_strlen(argv[2])) == 0)
+		{
+			free(usr_input);
+			break ;
+		}
+		ft_putstr_fd(usr_input, p_fd[1]);
+		free(usr_input);
 	}
-	if (dup2(p_fd[1], STDOUT_FILENO) == -1)
-		perror("dup2(p_fd[1], STDOUT_FILENO)\nError");
-	exec_cmds();
 	exit(EXIT_SUCCESS);
 }
 
-void	parent_proc(int *p_fd, char **argv)
+void	pipexing(char *cmd, char *env[])
 {
-	int	outfile;
+	int	p_fd[2];
+	pid_t	pid;
 
-	outfile = open(argv[], O_RWONLY | O_CREAT | O_TRUNC, 0777);
-	if (outfile == -1)
-		perror("open() Error");
-	if (dup2(p_fd[0], STDIN_FILENO) == -1)
-		perror("dup2(p_fd[0], STDIN_FILENO)\nError");
-	if (dup2(outfile, STDOUT_FILENO) == -1)
-		perror("dup2(outfile, STDOUT_FILENO)\nError");
-	exec_cmd();
+	if (pipe(p_fd) == -1)
+		perror("pipe");
+	pid = fork();
+	if (pid == -1)
+		perror("fork");
+	else if (pid == 0)
+	{
+		close(p_fd[0]);
+		dup2(p_fd[1], STDOUT_FILENO);
+		exec_cmds(cmd, env);
+	}
+	else
+	{
+		close(p_fd[1]);
+		dup2(p_fd[0], STDIN_FILENO);
+	}
 }
 
-int	main(int argc, char *argv[])
+int	open_files(char *pathname, int flag)
 {
-	pid_t	pid;
-	int	p_fd[2];
-	int	num_cmds;
-	int	i;
-	int	j;
+	int	fd;
 
-	if (argc < 0)
-		ft_printf("error\n");//error_handler(-1);
-	num_cmds = 0;
-	j = -1;
-	while (*argv)
+	if (flag == 0)
+		fd = open(pathname, O_RDONLY, 0777);
+	if (flag == 1)
+		fd = open(pathname, O_RDWR | O_CREAT | O_TRUNC, 0777);
+	if (flag == 2)
+		fd = open(pathname, O_RDWR | O_CREAT | O_TRUNC \
+				| O_APPEND, 0777);
+	if (fd == -1)
 	{
-		num_cmds++;
-		argv++;
-	}
-	num_cmds -= 3;
-	ft_printf("cmds are %d\n", num_cmds);
-	i = -1;
-	if (pipe(p_fd) == -1)
-	{
-		perror("Pipe Creation Failure");
+		perror("open");
 		exit(EXIT_FAILURE);
 	}
-	while (++i < num_cmds)
+	return (fd);
+}
+
+int	main(int argc, char *argv[], char *env[])
+{
+	int	i;
+	int	outfile;
+	int	infile;
+
+	i = 0;
+	if (argc < 5)
+		error_handler(-1);
+	if (ft_strcmp("here_doc", argv[1]) == 0)
 	{
-		pid = fork();
-		if (pid  == -1)
+		if (argc < 6)
+			error_handler(-1);
+		else
 		{
-			perror("Fork Failure");
-			exit(EXIT_FAILURE);
+			i = 3;
+			outfile = open_files(argv[argc - 1], 2);
+			here_doc(argv);
 		}
-		else if (pid > 0)
-		{
-			wait(NULL);
-			parent_doc(p_fd[0], argv);
-		}
-		else 
-			child_proc(p_fd[1], argv);
 	}
+	else
+	{
+		i = 2;
+		infile = open_files(argv[1], 0);
+		outfile = open_files(argv[argc - 1], 1);
+		dup2(infile, STDIN_FILENO);
+
+	}
+	while (i < argc - 2)
+		pipexing(argv[i++], env);
+	dup2(outfile, STDOUT_FILENO);
+	exec_cmds(argv[argc - 2], env);
 }
