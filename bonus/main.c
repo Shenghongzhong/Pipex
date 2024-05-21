@@ -6,20 +6,18 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:15:29 by szhong            #+#    #+#             */
-/*   Updated: 2024/05/02 22:48:58 by szhong           ###   ########.fr       */
+/*   Updated: 2024/05/21 10:38:47 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 #include "bonus.h"
 #include "pipex.h"
 #include <sys/wait.h>
-#include <stdio.h>
-
 
 void	here_doc(char *argv[])
 {
-	int	p_fd[2];
 	pid_t	pid;
+	int		p_fd[2];
 
 	if (pipe(p_fd) == -1)
 		perror("pipe()");
@@ -57,8 +55,8 @@ void	get_usrinput(char *argv[], int *p_fd)
 
 void	pipexing(char *cmd, char *env[])
 {
-	int	p_fd[2];
 	pid_t	pid;
+	int		p_fd[2];
 
 	if (pipe(p_fd) == -1)
 		perror("pipe");
@@ -123,7 +121,6 @@ int	main(int argc, char *argv[], char *env[])
 		infile = open_files(argv[1], 0);
 		outfile = open_files(argv[argc - 1], 1);
 		dup2(infile, STDIN_FILENO);
-
 	}
 	while (i < argc - 2)
 		pipexing(argv[i++], env);
