@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   bonus.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:15:29 by szhong            #+#    #+#             */
-/*   Updated: 2024/05/21 10:55:33 by szhong           ###   ########.fr       */
+/*   Updated: 2024/05/30 14:15:33 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 #include "bonus.h"
 #include "pipex.h"
 #include <sys/wait.h>
+#include <stdio.h>
 
 void	here_doc(char *argv[])
 {
@@ -102,7 +103,7 @@ int	main(int argc, char *argv[], char *env[])
 	int	infile;
 
 	i = 0;
-	if (argc < 5 || (ft_strcmp("here_doc", arv[1]) == 0 && argv < 6))
+	if (argc < 5 || (ft_strcmp("here_doc", argv[1]) == 0 && argc < 6))
 		error_handler(-1);
 	if (ft_strcmp("here_doc", argv[1]) == 0)
 	{

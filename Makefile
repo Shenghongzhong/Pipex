@@ -6,7 +6,7 @@
 #    By: szhong <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/23 09:36:43 by szhong            #+#    #+#              #
-#    Updated: 2024/04/30 15:49:27 by szhong           ###   ########.fr        #
+#    Updated: 2024/05/30 14:18:28 by szhong           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,10 @@ SRCS		:= \
 		   src/pipex.c \
 		   src/utils.c \
 		   src/main.c
+BONUS_SRCS	:= \
+		   bonus/bonus.c \
+		   src/utils.c \
+		   libft/libft.a\
 
 OBJ_DIR		:= obj
 OBJS		:= $(SRCS:%.c = $(OBJ_DIR)/%.o) 
@@ -49,14 +53,20 @@ $(LIBFT):
 	@make $(MAKEFLAGS) -C $(LIBFT_PATH) all
 
 clean:
+	@rm -rf $(NAME)
 	@rm -rf $(OBJ_DIR)
 	@echo "$(MAGENTA)[PIPEX] Objects Removed$(DF)"
 
 fclean: clean
-	@rm -rf $(NAME)
 	@echo "$(MAGENTA)[PIPEX] $(NAME) Removed$(DF)"
+	@echo "--------------------"
 	@make $(MAKEFLAGS) -C $(LIBFT_PATH) fclean
+
+bonus: clean
+	@make $(MAKEFLAGS) -C libft
+	@$(CC) $(CFLAGS) $(INCLUDE) $(BONUS_SRCS) -o $(NAME)	
+	@echo "$(YELLOW)[BONUS] $(GREEN)pipex bonus build completed!$(DF)"
 
 re:	fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
