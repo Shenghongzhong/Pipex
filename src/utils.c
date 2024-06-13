@@ -90,8 +90,10 @@ char	**get_paths(char *var, char **env)
 
 void	free_arr(char **path_arr)
 {
-	int	i;
+	int	I;
 
+	if (!path_arr)
+		return ;
 	i = -1;
 	while (path_arr[++i] != NULL)
 	{
