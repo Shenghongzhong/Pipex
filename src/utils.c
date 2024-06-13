@@ -90,7 +90,7 @@ char	**get_paths(char *var, char **env)
 
 void	free_arr(char **path_arr)
 {
-	int	I;
+	int	i;
 
 	if (!path_arr)
 		return ;
