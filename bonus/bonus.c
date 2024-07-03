@@ -43,7 +43,8 @@ void	get_usrinput(char *argv[], int *p_fd)
 	while (1)
 	{
 		usr_input = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(argv[2], usr_input, ft_strlen(argv[2])) == 0)
+		if (ft_strncmp(argv[2], usr_input, ft_strlen(argv[2])) == 0 \
+			&& ft_strlen(argv[2]) == ft_strlen(usr_input) - 1)
 		{
 			free(usr_input);
 			break ;
@@ -84,10 +85,9 @@ int	open_files(char *pathname, int flag)
 	if (flag == 0)
 		fd = open(pathname, O_RDONLY, 0777);
 	if (flag == 1)
-		fd = open(pathname, O_RDWR | O_CREAT | O_TRUNC, 0777);
+		fd = open(pathname, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (flag == 2)
-		fd = open(pathname, O_RDWR | O_CREAT | O_TRUNC \
-				| O_APPEND, 0777);
+		fd = open(pathname, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (fd == -1)
 	{
 		perror("open");
